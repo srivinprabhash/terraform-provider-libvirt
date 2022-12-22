@@ -671,10 +671,20 @@ func setNetworkInterfaces(d *schema.ResourceData, domainDef *libvirtxml.Domain,
 	for i := 0; i < d.Get("network_interface.#").(int); i++ {
 		prefix := fmt.Sprintf("network_interface.%d", i)
 
-		netIface := libvirtxml.DomainInterface{
-			Model: &libvirtxml.DomainInterfaceModel{
-				Type: "virtio",
-			},
+		var netIface libvirtxml.DomainInterface
+
+		if typeI, ok := d.GetOk(prefix + ".type"); ok {
+			netIface = libvirtxml.DomainInterface{
+				Model: &libvirtxml.DomainInterfaceModel{
+					Type: typeI.(string),
+				},
+			}
+		} else {
+			netIface = libvirtxml.DomainInterface{
+				Model: &libvirtxml.DomainInterfaceModel{
+					Type: "virtio",
+				},
+			}
 		}
 
 		// calculate the MAC address

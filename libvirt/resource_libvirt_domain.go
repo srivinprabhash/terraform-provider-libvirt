@@ -197,6 +197,10 @@ func resourceLibvirtDomain() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 						},
+						"type": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 						"vepa": {
 							Type:     schema.TypeString,
 							Optional: true,
